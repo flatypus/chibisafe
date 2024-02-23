@@ -135,7 +135,13 @@
 							<h2 class="text-light-100">File info</h2>
 
 							<InputWithOverlappingLabel :value="file.uuid" class="mt-4" label="UUID" readOnly />
-							<InputWithOverlappingLabel :value="file.name" class="mt-4" label="Name" readOnly />
+							<InputWithEditCallback
+								:value="file.name"
+								class="mt-4"
+								label="Name"
+								:callback="console.log"
+							/>
+
 							<InputWithOverlappingLabel
 								:value="file.original"
 								class="mt-4"
@@ -280,6 +286,7 @@ import {
 	removeFileFromTag
 } from '~/use/api';
 import { formatBytes, isFileVideo, isFileImage, isFileAudio } from '~/use/file';
+import InputWithEditCallback from '../forms/InputWithEditCallback.vue';
 
 interface Props {
 	file: FileWithAdditionalData;
