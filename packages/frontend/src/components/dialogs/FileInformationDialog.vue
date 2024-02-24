@@ -139,7 +139,7 @@
 								:value="file.name"
 								class="mt-4"
 								label="Name"
-								:callback="console.log"
+								:callback="doRenameFile"
 							/>
 
 							<InputWithOverlappingLabel
@@ -283,7 +283,8 @@ import {
 	regenerateThumbnail,
 	getTags,
 	addFileToTag,
-	removeFileFromTag
+	removeFileFromTag,
+	renameFile
 } from '~/use/api';
 import { formatBytes, isFileVideo, isFileImage, isFileAudio } from '~/use/file';
 import InputWithEditCallback from '../forms/InputWithEditCallback.vue';
@@ -379,6 +380,12 @@ const doAddFileToTag = async ({ uuid, name }: { uuid: string; name: string }) =>
 const doRemoveFileFromTag = async ({ uuid }: { uuid: string }) => {
 	await removeFileFromTag(props.file.uuid, uuid);
 	fileTags.value = fileTags.value.filter(tag => tag.uuid !== uuid);
+};
+
+const doRenameFile = async (name: string) => {
+	await renameFile(props.file.uuid, name);
+	queryClient.invalidateQueries({ queryKey: isAdmin ? ['admin', 'files'] : ['files'] });
+	toast.success('File renamed');
 };
 
 const copyLink = () => {

@@ -206,6 +206,15 @@ export const deleteFile = async (uuid: string) => {
 	}
 };
 
+export const renameFile = async (uuid: string, name: string) => {
+	try {
+		const data = await request.post(`file/${uuid}/rename`, { name });
+		debug('renameFile', data);
+	} catch (error: any) {
+		sendErrorToast(error.message);
+	}
+};
+
 export const regenerateThumbnail = async (uuid: string) => {
 	try {
 		const data = await request.post(`file/${uuid}/thumbnail/regenerate`);
